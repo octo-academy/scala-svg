@@ -1,0 +1,37 @@
+# <tag>: (If applied, this commit will) <subject> (Max 72 char)
+# |<----   Preferably using up to 50 chars   --->|<------------------->|
+# Tags are:
+#       feat - a new feature
+#        fix - a bug fix
+#       docs - changes to documentation
+#      style - formatting, missing semi colons, etc; no code change
+#   refactor - refactoring production code
+#       test - adding tests, refactoring test; no production code change
+#      chore - updating build tasks, package manager configs, etc; no production code change
+# Example:
+# chore: Apply git conventions on the project
+
+# (Optional) Explain why this change is being made
+# |<----   Limit each line to a maximum of 72 characters ------------->|
+# Example:
+# To make life easier on the project the team decided to declare the way
+# all the git related activities are made and incorporate the
+# instruction about it into the project.
+
+# (Optional) Resolves: <issue> (list related issues and pull-requests)
+# |<----   Limit each line to a maximum of 72 characters ------------->|
+# Example:
+# Resolves: #42
+
+# ----------------------------------------------------------------------
+# Remember to:
+#   * Capitalize the subject line
+#   * Use the imperative mood in the subject line
+#   * Do not end the subject line with a period
+#   * Separate subject from body with a blank line
+#   * Use the body to explain what and why vs. how
+#   * Can use multiple lines with "-" or "*" for bullet points in the
+#     body
+#   * All the lines starting with "#" will be ignored by git thus
+#     you can keep these comments stay
+# ----------------------------------------------------------------------

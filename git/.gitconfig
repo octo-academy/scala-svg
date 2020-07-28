@@ -1,0 +1,14 @@
+[core]
+    attributesFile = git/.gitattributes
+    autocrlf = false
+    eol = lf
+    excludesFile = git/.gitignore
+
+[commit]
+    template = git/.gitmessage
+
+[pull]
+    rebase = true
+
+[merge]
+    ff = true

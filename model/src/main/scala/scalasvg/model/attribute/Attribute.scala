@@ -1,3 +1,6 @@
 package scalasvg.model.attribute
 
-trait Attribute
+trait Attribute {
+  type Value
+  def value: Value
+}

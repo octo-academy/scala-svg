@@ -11,7 +11,7 @@ Before starting the development, please, run the
 [`git/init.sh`](../../git/init.sh) script. This script initializes
 your local repository configurations with properties used on the project:
 ```bash
-sh git/init.sh
+bash git/init.sh
 ``` 
 
 ## Build Tool

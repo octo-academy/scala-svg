@@ -1,11 +1,12 @@
 import sbt._
 
 object Dependencies {
-  private final object Version {
-    final val scalatest = "3.1.1"
+  private object Version {
+    final val scalatest = "3.2.0"
   }
 
-  final private val scalatest = "org.scalatest" %% "scalatest" % Version.scalatest
+  final private val `scalatest-wordspec`     = "org.scalatest" %% "scalatest-wordspec"     % Version.scalatest % Test
+  final private val `scalatest-mustmatchers` = "org.scalatest" %% "scalatest-mustmatchers" % Version.scalatest % Test
 
-  final val Svg = Seq(scalatest % Test)
+  final val Model = Seq(`scalatest-wordspec`, `scalatest-mustmatchers`)
 }

@@ -1,9 +1,21 @@
+<!-- omit in toc -->
 # Git Commit Message Style Guide
+- [Introduction](#introduction)
+- [Commit Messages](#commit-messages)
+  - [Message Structure](#message-structure)
+  - [The Type](#the-type)
+  - [The Subject](#the-subject)
+  - [The Body](#the-body)
+  - [The Footer](#the-footer)
+- [Example Commit Message](#example-commit-message)
+
+<!-- References -->
+[udacity-git-styleguide]: https://udacity.github.io/git-styleguide
 
 ## Introduction
 This style guide acts as the official guide to follow this project. It is a
 snapshot of the Udacity git style guide that you might find under the
-[link](https://udacity.github.io/git-styleguide/).
+[link][udacity-git-styleguide].
 
 ## Commit Messages
 ### Message Structure

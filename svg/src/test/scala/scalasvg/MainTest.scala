@@ -1,5 +1,0 @@
-package scalasvg
-
-object MainTest {
-
-}

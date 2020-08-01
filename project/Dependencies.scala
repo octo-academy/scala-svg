@@ -5,8 +5,9 @@ object Dependencies {
     final val scalatest = "3.2.0"
   }
 
-  final private val `scalatest-wordspec`     = "org.scalatest" %% "scalatest-wordspec"     % Version.scalatest % Test
-  final private val `scalatest-mustmatchers` = "org.scalatest" %% "scalatest-mustmatchers" % Version.scalatest % Test
+  private val `scalatest-wordspec`     = "org.scalatest" % "scalatest-wordspec"     % Version.scalatest % Test
+  private val `scalatest-mustmatchers` = "org.scalatest" % "scalatest-mustmatchers" % Version.scalatest % Test
 
-  final val Model = Seq(`scalatest-wordspec`, `scalatest-mustmatchers`)
+  /* @todo: Enable test dependencies once the compilcation error on the library side is fixed */
+  // val Model = Seq(`scalatest-wordspec`, `scalatest-mustmatchers`)
 }

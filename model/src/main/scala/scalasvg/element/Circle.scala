@@ -11,9 +11,9 @@ import scalasvg.element.category.Category
   * @param pathLength The total length for the circle's circumference, in user units.
   */
 final case class Circle(cx: String, cy: String, r: String, pathLength: Number)(attributes: Seq[Circle.Attribute])
-    extends Element
+    extends Element.Empty
     with Category.BasicShape
 
 object Circle {
-  type Attribute = Core.Id | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
+  type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
 }

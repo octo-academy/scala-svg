@@ -5,16 +5,17 @@ import scalasvg.element.category.Category
 
 /**
   * The <circle> SVG element is an SVG basic shape, used to draw circles based on a center point and a radius.
-  * @param cx The x-axis coordinate of the center of the circle.
-  * @param cy The y-axis coordinate of the center of the circle.
-  * @param r The radius of the circle. A value lower or equal to zero disables rendering of the circle.
-  * @param pathLength The total length for the circle's circumference, in user units.
+  * @param x1 Defines the x-axis coordinate of the line starting point.
+  * @param x2 Defines the x-axis coordinate of the line ending point.
+  * @param y1 Defines the y-axis coordinate of the line starting point.
+  * @param y2 Defines the y-axis coordinate of the line ending point.
+  * @param pathLength Defines the total path length in user units.
   */
-final case class Circle(cx: String, cy: String, r: String, pathLength: Number)(attributes: Seq[Circle.Attribute])
+final case class Line(x1: String, x2: String, y1: String, y2: String, pathLength: Number)(attributes: Seq[Line.Attribute])
     extends Element.Empty
     with Category.BasicShape
 
-object Circle {
+object Line {
 
   /**
     * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria

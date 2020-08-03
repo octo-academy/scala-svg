@@ -17,5 +17,9 @@ final case class Ellipse(cx: String, cy: String, rx: String, ry: String, pathLen
     with Category.BasicShape
 
 object Ellipse {
+  
+  /**
+    * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria
+    */  
   type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
 }

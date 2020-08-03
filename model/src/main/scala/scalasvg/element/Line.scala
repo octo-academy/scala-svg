@@ -11,7 +11,7 @@ import scalasvg.element.category.Category
   * @param y2 Defines the y-axis coordinate of the line ending point.
   * @param pathLength Defines the total path length in user units.
   */
-final case class Line(x1: String, x2: String, y1: String, y2: String, pathLength: Number)(attributes: Seq[Line.Attribute])
+final case class Line(x1: String, x2: String, y1: String, y2: String, pathLength: Option[Number]=None)(attributes: Seq[Line.Attribute])
     extends Element.Empty
     with Category.BasicShape
 

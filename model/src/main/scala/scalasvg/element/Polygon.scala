@@ -10,7 +10,7 @@ import scalasvg.element.category.Category
   * required to draw the polygon.
   * @param pathLength This attribute lets specify the total length for the path, in user units.
   */
-final case class Polygon(points: List[(String,String)], pathLength: Number)(attributes: Seq[Ploygon.Attribute])
+final case class Polygon(points: List[(String,String)], pathLength: Option[Number]=None)(attributes: Seq[Ploygon.Attribute])
     extends Element.Empty
     with Category.BasicShape
 

@@ -3,7 +3,7 @@ package scalasvg.element
 import scalasvg.attribute.generic.{Core, Styling}
 import scalasvg.element.category.Category
 
-final case class Desc(attributes: Seq[Desc.Attribute], content: String)
+final case class Desc(attributes: Seq[Desc.Attribute])(content: String)
     extends Element.Container[String](content)
     with Category.Descriptive
 

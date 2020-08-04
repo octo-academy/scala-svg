@@ -10,7 +10,7 @@ import scalasvg.element.category.Category
   * @param r The radius of the circle. A value lower or equal to zero disables rendering of the circle.
   * @param pathLength The total length for the circle's circumference, in user units.
   */
-final case class Circle(cx: String, cy: String, r: String, pathLength: Option[Number]=None)(attributes: Seq[Circle.Attribute])
+final case class Circle(cx: String, cy: String, r: String, pathLength: Option[Number]=None, attributes: Seq[Circle.Attribute])
     extends Element.Empty
     with Category.BasicShape
 

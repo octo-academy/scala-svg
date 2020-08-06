@@ -12,9 +12,10 @@ import scalasvg.element.category.Category
   * @param ry The radius of the ellipse on the y axis.
   * @param pathLength This attribute lets specify the total length for the path, in user units.
   */
-final case class Ellipse(cx: String, cy: String, rx: String, ry: String, pathLength: Option[Number]=None, attributes: Seq[Ellipse.Attribute])
-    extends Element.Empty
-    with Category.BasicShape
+final case class Ellipse(cx: String, cy: String, rx: String, ry: String, pathLength: Option[Number]=None, attributes: Ellipse.Attribute*)
+    (content: Ellipse.Content*)
+    extends Element[Seq[Ellipse.Content]](content)
+    with Category.BasicShape with Category.Graphics with Category.Shape
 
 object Ellipse {
   
@@ -22,4 +23,5 @@ object Ellipse {
     * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria
     */  
   type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
+  type Content = Category.Descriptive | Category.Animation
 }

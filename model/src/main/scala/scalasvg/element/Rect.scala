@@ -15,9 +15,9 @@ import scalasvg.element.category.Category
   * @param pathLength The total length of the rectangle's perimeter, in user units.
   */
 final case class Rect(x: String, y: String, width: String, height: String, rx: String, ry: String, pathLength: Option[Number]=None, 
-    attributes: Seq[Rect.Attribute])
-    extends Element.Empty
-    with Category.BasicShape
+    attributes: Rect.Attribute*)(content: Rect.Content*)
+    extends Element[Seq[Rect.Content]](content)
+    with Category.BasicShape with Category.Graphics with Category.Shape
 
 object Rect {
 
@@ -25,4 +25,5 @@ object Rect {
     * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria
     */
   type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
+  type Content = Category.Descriptive | Category.Animation
 }

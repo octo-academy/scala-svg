@@ -11,9 +11,10 @@ import scalasvg.element.category.Category
   * required to draw the polyline.
   * @param pathLength This attribute lets specify the total length for the path, in user units.
   */
-final case class Polyline(points: List[(String,String)], pathLength: Option[Number]=None, attributes: Seq[Polyline.Attribute])
-    extends Element.Empty
-    with Category.BasicShape
+final case class Polyline(points: List[(String,String)], pathLength: Option[Number]=None, attributes: Polyline.Attribute*)
+    (content: Polyline.Content*)
+    extends Element[Seq[Polyline.Content]](content)
+    with Category.BasicShape with Category.Graphics with Category.Shape
 
 object Polyline {
 
@@ -21,4 +22,5 @@ object Polyline {
     * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria
     */
   type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
+  type Content = Category.Descriptive | Category.Animation
 }

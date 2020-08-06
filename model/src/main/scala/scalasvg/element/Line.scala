@@ -11,9 +11,10 @@ import scalasvg.element.category.Category
   * @param y2 Defines the y-axis coordinate of the line ending point.
   * @param pathLength Defines the total path length in user units.
   */
-final case class Line(x1: String, x2: String, y1: String, y2: String, pathLength: Option[Number]=None, attributes: Seq[Line.Attribute])
-    extends Element.Empty
-    with Category.BasicShape
+final case class Line(x1: String, x2: String, y1: String, y2: String, pathLength: Option[Number]=None, attributes: Line.Attribute*)
+    (content: Line.Content*)
+    extends Element[Seq[Line.Content]](content)
+    with Category.BasicShape with Category.Graphics with Category.Shape
 
 object Line {
 
@@ -21,4 +22,5 @@ object Line {
     * @todo: Extend with all attributes of categories Global Event, Graphical Event, Presentation, Aria
     */
   type Attribute = Core.Id | Core.Tabindex | Styling.Class | Styling.Style | ConditionalProcessing.SystemLanguage
+  type Content = Category.Descriptive | Category.Animation
 }

@@ -18,4 +18,11 @@ enum Core[T] extends Attribute with Category.Generic.Core {
    * attributes containing text content of particular elements.
    */
   case Lang(override val value: Locale) extends Core[Locale]
+
+  /**
+   * The tabindex attribute allows you to control whether an element is focusable 
+   * and to define the relative order of the element for the purposes 
+   * of sequential focus navigation.
+   */
+  case Tabindex(override val value: Integer) extends Core[Integer]
 }

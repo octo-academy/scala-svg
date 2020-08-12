@@ -16,6 +16,13 @@ object Category {
      * on any SVG element to apply CSS styling effects.
      */
     trait Styling extends Generic
+
+    /**
+     * The SVG conditional processing attributes are all the attributes 
+     * that can be specified on some SVG elements to control whether 
+     * or not the element on which it appears should be rendered.
+     */
+    trait ConditionalProcessing extends Generic
   }
 
   trait XLink extends Category

@@ -19,3 +19,7 @@ lazy val dsl = project
 lazy val parser = project
   .aggregate(model)
   .dependsOn(model)
+
+lazy val example = project
+  .aggregate(model, dsl, parser)
+  .dependsOn(model, dsl, parser)

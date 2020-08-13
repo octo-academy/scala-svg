@@ -14,8 +14,8 @@ import scalasvg.element.category.Category
   * @param ry The vertical corner radius of the rect. Defaults to rx if it is specified.
   * @param pathLength The total length of the rectangle's perimeter, in user units.
   */
-final case class Rect(x: String, y: String, width: String, height: String, rx: String, ry: String, pathLength: Option[Number]=None, 
-    attributes: Rect.Attribute*)(content: Rect.Content*)
+final case class Rect(x: String, y: String, width: String, height: String, rx: String, ry: String, pathLength: Option[Number] = None, 
+    attributes: Seq[Rect.Attribute], content: Seq[Rect.Content])
     extends Element[Seq[Rect.Content]](content)
     with Category.BasicShape with Category.Graphics with Category.Shape
 

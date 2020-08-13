@@ -16,5 +16,5 @@ object Desc {
     * @todo: Extend with all attributes of categories Global Event and Document Event
     */
   type Attribute = Core.Id | Styling.Class | Styling.Style
-  type Content = String | Element[Any]
+  type Content = Plain | Element[Any]
 }

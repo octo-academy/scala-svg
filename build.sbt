@@ -11,6 +11,9 @@ ThisBuild / scalacOptions := Seq(
 )
 ThisBuild / useScala3doc := true
 
+lazy val lang = project
+  .settings(libraryDependencies ++= Dependencies.Lang)
+
 lazy val model = project
   .settings(libraryDependencies ++= Dependencies.Model)
 

@@ -6,6 +6,8 @@ object Dependencies {
     D.scalatestMustmatchers
   ).map(_ % Test)
 
+  val Lang: Seq[ModuleID] = TestDependencies
+
   val Model: Seq[ModuleID] = TestDependencies
 
   val Dsl: Seq[ModuleID] = TestDependencies

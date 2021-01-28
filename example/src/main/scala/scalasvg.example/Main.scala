@@ -1,7 +1,11 @@
 package scalasvg.example
 
 import scalasvg.element.SVG
-import scalasvg.dsl.{svg, circle, desc, plain}
+import scalasvg.dsl.{ svg, circle, desc, plain }
+import scalasvg.parser.Combinators.{ many, some }
+import scalasvg.parser.CharParsers.{ char, Digit }
+import scalasvg.parser.StringParsers.{ string }
+import scalasvg.parser.internal.BufferedStream
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -18,6 +22,12 @@ object Main {
         }
       }
 
-    println(document)
+//    println(document)
+
+    println((for {
+//      a <- char('a')
+      b <- some(Digit)
+//      c <- char('c')
+    } yield (/*a, */b/*, c*/)).parse(BufferedStream("42")))
   }
 }

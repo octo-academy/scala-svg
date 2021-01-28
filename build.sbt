@@ -23,8 +23,8 @@ lazy val dsl = project
   .settings(libraryDependencies ++= Dependencies.Dsl)
 
 lazy val parser = project
-  .aggregate(model)
-  .dependsOn(model)
+  .aggregate(lang, model)
+  .dependsOn(lang, model)
   .settings(libraryDependencies ++= Dependencies.Parser)
 
 lazy val example = project

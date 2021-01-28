@@ -1,6 +1,6 @@
 ThisBuild / name := "scala-svg"
 ThisBuild / version := "0.1"
-ThisBuild / scalaVersion := "0.26.0-RC1"
+ThisBuild / scalaVersion := "3.0.0-M3"
 ThisBuild / scalacOptions := Seq(
   "-encoding",
   "utf8",
@@ -9,6 +9,7 @@ ThisBuild / scalacOptions := Seq(
   "-feature",
   "-Xfatal-warnings"
 )
+ThisBuild / useScala3doc := true
 
 lazy val model = project
 

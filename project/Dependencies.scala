@@ -1,13 +1,25 @@
 import sbt._
 
 object Dependencies {
-  private object Version {
-    final val scalatest = "3.2.0"
+  private val TestDependencies = Seq(
+    D.scalatestWordspec,
+    D.scalatestMustmatchers
+  ).map(_ % Test)
+
+  val Model: Seq[ModuleID] = TestDependencies
+
+  val Dsl: Seq[ModuleID] = TestDependencies
+
+  val Parser: Seq[ModuleID] = TestDependencies
+
+  val Example: Seq[ModuleID] = TestDependencies
+
+  private object V {
+    val scalatest = "3.2.3"
   }
 
-  private val `scalatest-wordspec`     = "org.scalatest" % "scalatest-wordspec"     % Version.scalatest % Test
-  private val `scalatest-mustmatchers` = "org.scalatest" % "scalatest-mustmatchers" % Version.scalatest % Test
-
-  /* @todo: Enable test dependencies once the compilcation error on the library side is fixed */
-  // val Model = Seq(`scalatest-wordspec`, `scalatest-mustmatchers`)
+  private object D {
+    val scalatestWordspec     = "org.scalatest" %% "scalatest-wordspec"     % V.scalatest
+    val scalatestMustmatchers = "org.scalatest" %% "scalatest-mustmatchers" % V.scalatest
+  }
 }

@@ -12,15 +12,19 @@ ThisBuild / scalacOptions := Seq(
 ThisBuild / useScala3doc := true
 
 lazy val model = project
+  .settings(libraryDependencies ++= Dependencies.Model)
 
 lazy val dsl = project
   .aggregate(model)
   .dependsOn(model)
+  .settings(libraryDependencies ++= Dependencies.Dsl)
 
 lazy val parser = project
   .aggregate(model)
   .dependsOn(model)
+  .settings(libraryDependencies ++= Dependencies.Parser)
 
 lazy val example = project
   .aggregate(model, dsl, parser)
   .dependsOn(model, dsl, parser)
+  .settings(libraryDependencies ++= Dependencies.Example)

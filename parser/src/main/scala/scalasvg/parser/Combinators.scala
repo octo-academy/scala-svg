@@ -1,12 +1,12 @@
 package scalasvg.parser
 
 import scalasvg.lang.std.ListInstances.{ given }
-import scalasvg.lang.typeclass.Monoid
+import scalasvg.lang.typeclass.Applicative
 import scalasvg.parser.internal.Parser
 
 trait Combinators {
   final def many[O](parser: Parser[O]): Parser[List[O]] =
-    some(parser) |+| Monoid[Parser[List[O]]].empty
+    some(parser) |+| Applicative[Parser].pure(List[O]())
 
   final def some[O](parser: Parser[O]): Parser[List[O]] =
     for {

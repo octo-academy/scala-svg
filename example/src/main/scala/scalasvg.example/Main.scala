@@ -24,14 +24,14 @@ object Main {
 
 //    println(document)
 
-//    val parser = for {
-//      //      a <- char('a')
-//      b <- some(Digit)
-//      //      c <- char('c')
-//    } yield (/*a, */b/*, c*/)
+    val parser = for {
+      a <- char('a')
+      b <- some(Digit)
+      c <- char('c')
+    } yield (a, b, c)
 
-    val parser = char('4') |+| char('a')
+//    val parser = (char('4') |+| char('a')) *> char('b')
 
-    println(parser.parse(BufferedStream("a")))
+    println(parser.parse(BufferedStream("a42c")))
   }
 }

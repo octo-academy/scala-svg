@@ -2,7 +2,6 @@ package scalasvg.parser
 
 import scalasvg.lang.typeclass.{ Applicative, Monoid }
 import scalasvg.parser.internal.{ Parser, Result }
-import scalasvg.parser.ItemParsers.Item
 
 trait CharParsers {
   lazy val AnyChar : Parser[Char] = satisfy(_ => true)
@@ -17,6 +16,12 @@ trait CharParsers {
   lazy val Letter  : Parser[Char] = satisfy(_.isLetter)
   lazy val Digit   : Parser[Char] = satisfy(_.isDigit)
   lazy val AlphaNum: Parser[Char] = satisfy(_.isLetterOrDigit)
+  lazy val Item    : Parser[Char] = Parser { (position, context, input) =>
+    input.next match {
+      case Right((char, reminder)) => Result.Success(position.next(char), context, reminder, char)
+      case Left(error)             => context.error(position, error)
+    }
+  }
 
   final def satisfy(predicate: Char => Boolean): Parser[Char] = for {
     c <- Item

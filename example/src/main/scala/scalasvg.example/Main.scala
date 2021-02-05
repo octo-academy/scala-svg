@@ -24,10 +24,14 @@ object Main {
 
 //    println(document)
 
-    println((for {
-//      a <- char('a')
-      b <- some(Digit)
-//      c <- char('c')
-    } yield (/*a, */b/*, c*/)).parse(BufferedStream("42")))
+//    val parser = for {
+//      //      a <- char('a')
+//      b <- some(Digit)
+//      //      c <- char('c')
+//    } yield (/*a, */b/*, c*/)
+
+    val parser = char('4') |+| char('a')
+
+    println(parser.parse(BufferedStream("a")))
   }
 }

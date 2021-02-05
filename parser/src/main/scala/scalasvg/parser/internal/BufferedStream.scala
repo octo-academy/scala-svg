@@ -4,26 +4,24 @@ final case class BufferedStream(buffer: Array[Char],
                                 bufferSize: Int = BufferedStream.DefaultBufferSize,
                                 offset: Int) {
                                      
-  def isEmpty: Boolean = (buffer.length - 1) <= offset
+  def isEmpty: Boolean = buffer.length <= offset
 
   def apply(offset: Int): Either[String, (Char, BufferedStream)] =
-    applyF[Char](offset, (stream, head, localOffset) => Right((head(localOffset), stream.copy(offset = localOffset))))
+    applyF[Char](offset, (head, localOffset) => head(localOffset))
 
   def apply(offset: Int, length: Int): Either[String, (String, BufferedStream)] =
     applyF[String](
       offset + length,
-      (stream, head, localOffset) => Right(new String(head.slice(offset, localOffset)), stream.copy(offset = localOffset))
+      (head, localOffset) => new String(head.slice(offset, localOffset))
     )
 
-  private def applyF[U](offset: Int,
-                        f: (BufferedStream, Array[Char], Int) => Either[String, (U, BufferedStream)]
-                        ): Either[String, (U, BufferedStream)] = {
+  private def applyF[U](offset: Int, f: (Array[Char], Int) => U): Either[String, (U, BufferedStream)] = {
     if (offset < this.offset) {
       Left("Offset cannot be smaller than the current offset of the buffer")
     } else if (isEmpty) {
       Left("Unexpected end of input")
     } else {
-      f(this, buffer, offset)
+      Right((f(buffer, offset), this.copy(offset = offset)))
     }
   }
 }

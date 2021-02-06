@@ -1,6 +1,6 @@
 package scalasvg.parser.internal
 
-import scalasvg.lang.typeclass.{ Applicative, Monad, Monoid, Semigroup }
+import scalasvg.lang.typeclass.{Applicative, Choice, Monad, Monoid, Semigroup}
 import scalasvg.parser.internal.Parser
 
 import scala.annotation.targetName
@@ -32,7 +32,13 @@ object Parser {
     def empty: Parser[A] = Parser { (position, context, input) => context.error(position, "Parser.empty") }
 
     extension (a: Parser[A]) {
-      @targetName("combine") def |+| (b: Parser[A]): Parser[A] = Parser { (position, context, input) =>
+      @targetName("combine") def |+| (b: Parser[A]): Parser[A] = a <|> b
+    }
+  }
+
+  given ParserChoice: Choice[Parser] with {
+    extension[A, B] (a: Parser[A]) {
+      @targetName("or") def <|> (b: Parser[B]): Parser[A | B] = Parser { (position, context, input) =>
         a.run(position, context, input) match {
           case x: Result.Success[A] => x
           case x: Result.Failure[A] => b.run(position, context, input)

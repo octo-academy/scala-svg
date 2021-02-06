@@ -2,12 +2,8 @@ package scalasvg.example
 
 import scalasvg.element.SVG
 import scalasvg.dsl.{ svg, circle, desc, plain }
-import scalasvg.parser.Combinators.{ many, some }
-import scalasvg.parser.CharParsers.{ char, Digit }
-import scalasvg.parser.StringParsers.{ string }
-import scalasvg.parser.internal.BufferedStream
 
-object Main {
+object Dsl {
   def main(args: Array[String]): Unit = {
     val document: SVG =
       svg(viewBox = "0 0 100 100") {
@@ -22,16 +18,6 @@ object Main {
         }
       }
 
-//    println(document)
-
-    val parser = for {
-      a <- char('a')
-      b <- some(Digit)
-      c <- char('c')
-    } yield (a, b, c)
-
-//    val parser = (char('4') |+| char('a')) *> char('b')
-
-    println(parser.parse(BufferedStream("a42c")))
+    println(document)
   }
 }

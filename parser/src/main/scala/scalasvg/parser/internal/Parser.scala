@@ -6,7 +6,14 @@ import scalasvg.parser.internal.Parser
 import scala.annotation.targetName
 
 final case class Parser[O](val run: Parser.Run[O]) {
-  def parse(stream: BufferedStream) = run(Position(0, 0, 0), new Context(), stream)
+  def parse(stream: BufferedStream): Either[String, O] = run(Position(0, 0, 0), new Context(), stream) match {
+    case Result.Failure(position, error)     =>
+      val line   = position.row    + 1
+      val column = position.column + 1
+      Left(s"""Error "${error}" at line ${line} column ${column}""")
+    case Result.Success(_, _, input, output) =>
+      if input.isEmpty then Right(output) else Left(s"""Unconsumed input: "${input.rest}"""")
+  }
 }
 
 object Parser {

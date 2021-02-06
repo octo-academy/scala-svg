@@ -8,6 +8,8 @@ final case class BufferedStream(buffer: Array[Char],
 
   def next: Either[String, (Char, BufferedStream)] = safeNext[Char](buffer(offset))
 
+  def rest: String = if (isEmpty) "" else new String(buffer.slice(offset, buffer.length))
+
   private def safeNext[U](portion: => U): Either[String, (U, BufferedStream)] = {
     if (isEmpty) {
       Left("Unexpected end of input")

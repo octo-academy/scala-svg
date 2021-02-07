@@ -11,6 +11,8 @@ ThisBuild / scalacOptions := Seq(
 )
 ThisBuild / useScala3doc := true
 
+ThisBuild / resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 lazy val lang = project
   .settings(libraryDependencies ++= Dependencies.Lang)
 

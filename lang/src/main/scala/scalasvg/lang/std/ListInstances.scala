@@ -1,6 +1,6 @@
 package scalasvg.lang.std
 
-import scalasvg.lang.typeclass.{ Applicative, Apply, Monad, Monoid, Traverse, Equal }
+import scalasvg.lang.typeclass._
 
 import scala.annotation.targetName
 

@@ -10,5 +10,8 @@ class ListLawsSpec extends ContainerLikeLawsTest[List] {
     behave like functor[String, Int, Float]
     behave like monad[Double, Byte]
     behave like monoid[Int]
+    behave like apply[Long, Double, String]
+    behave like applicative[Int, Byte, Float]
+    behave like flatMap[String, Long, Byte]
   }
 }

@@ -1,6 +1,7 @@
 *.class
 *.log
 .idea
+.bsp
 **/target
 .dotty-ide-artifact
 .dotty-ide.json

@@ -1,6 +1,7 @@
 import sbt._
 
 object Dependencies {
+
   private val TestDependencies = Seq(
     D.scalatestWordspec,
     D.scalatestMustmatchers,
@@ -30,4 +31,5 @@ object Dependencies {
     val scalacheck            = "org.scalacheck"    %% "scalacheck"             % V.scalacheck
     val scalacheckPlus        = "org.scalatestplus" %% "scalacheck-1-15"        % V.scalacheckPlus
   }
+
 }

@@ -1,9 +1,10 @@
 package scalasvg.example
 
 import scalasvg.element.SVG
-import scalasvg.dsl.{svg, circle, desc, plain}
+import scalasvg.dsl.{ circle, desc, plain, svg }
 
 object Main {
+
   def main(args: Array[String]): Unit = {
     val document: SVG =
       svg(viewBox = "0 0 100 100") {
@@ -20,4 +21,5 @@ object Main {
 
     println(document)
   }
+
 }

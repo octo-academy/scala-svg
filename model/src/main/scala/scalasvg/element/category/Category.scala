@@ -1,6 +1,7 @@
 package scalasvg.element.category
 
 sealed trait Category
+
 object Category {
   trait Animation         extends Category
   trait BasicShape        extends Category

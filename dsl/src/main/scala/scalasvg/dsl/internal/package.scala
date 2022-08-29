@@ -6,10 +6,9 @@ import scalasvg.element.Element
 package object internal {
   type Initializer[T] = ListBuffer[T] ?=> Unit
 
-  private[dsl] def initialize[C, E <: Element[Seq[C]]](construct: Seq[C] => E, init: Initializer[C])
-                                                 (using parent: ListBuffer[_ >: E]): E = {
-    initializeParent(initializeChildren(construct, init))
-  }
+  private[dsl] def initialize[C, E <: Element[Seq[C]]](construct: Seq[C] => E, init: Initializer[C])(using
+    parent:                                                       ListBuffer[_ >: E]
+  ): E = initializeParent(initializeChildren(construct, init))
 
   private[dsl] def initializeChildren[C, E <: Element[Seq[C]]](construct: Seq[C] => E, init: Initializer[C]): E = {
     val children = ListBuffer.empty[C]
@@ -21,4 +20,5 @@ package object internal {
     parent.addOne(element)
     element
   }
+
 }

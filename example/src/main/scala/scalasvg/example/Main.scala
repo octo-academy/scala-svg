@@ -1,7 +1,7 @@
 package scalasvg.example
 
-import scalasvg.element.SVG
 import scalasvg.dsl.{ circle, desc, plain, svg }
+import scalasvg.element.SVG
 
 object Main {
 

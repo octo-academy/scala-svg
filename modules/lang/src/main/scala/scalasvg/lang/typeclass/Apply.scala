@@ -19,6 +19,7 @@ trait Apply[F[_]] extends Functor[F] with Semigroupal[F] {
 
     @targetName("productR") def *>(fb: F[B]): F[B] = fa.map2(fb)((_, b) => b)
   }
+
 }
 
 object Apply extends ContainerLikeInstanceSummoner[Apply]

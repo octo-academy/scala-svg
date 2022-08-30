@@ -8,6 +8,7 @@ trait Functor[F[_]] {
 
     def as(b: B): F[B] = fa.map(_ => b)
   }
+
 }
 
 object Functor extends ContainerLikeInstanceSummoner[Functor]

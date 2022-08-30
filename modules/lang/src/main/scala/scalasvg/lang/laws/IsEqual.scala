@@ -2,7 +2,7 @@ package scalasvg.lang.laws
 
 import scalasvg.lang.typeclass.Equal
 
-extension [A](lhs: A)  {
+extension [A](lhs: A) {
   def =?=(rhs: A): IsEqual[A] = IsEqual(lhs, rhs)
 }
 

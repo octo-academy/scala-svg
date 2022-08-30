@@ -10,6 +10,7 @@ trait Foldable[F[_]] {
 
     def foldRight(b: B)(f: (A, B) => B): B
   }
+
 }
 
 object Foldable extends ContainerLikeInstanceSummoner[Foldable]

@@ -4,11 +4,9 @@ import scalasvg.lang.typeclass.Monoid
 
 trait MonoidLaws[A](using m: Monoid[A]) {
 
-  def combineRightIdentity(x: A): IsEqual[A] =
-    (x |+| m.empty) =?= x
+  def combineRightIdentity(x: A): IsEqual[A] = (x |+| m.empty) =?= x
 
-  def combineLeftIdentity(x: A): IsEqual[A] =
-    (m.empty |+| x) =?= x
+  def combineLeftIdentity(x: A): IsEqual[A] = (m.empty |+| x) =?= x
 }
 
 object MonoidLaws {

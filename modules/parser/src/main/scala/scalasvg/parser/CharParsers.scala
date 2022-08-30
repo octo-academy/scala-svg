@@ -17,7 +17,7 @@ trait CharParsers {
   lazy val Digit:    Parser[Char] = satisfy(_.isDigit)
   lazy val AlphaNum: Parser[Char] = satisfy(_.isLetterOrDigit)
 
-  lazy val Item:     Parser[Char] = Parser { (position, context, input) =>
+  lazy val Item: Parser[Char] = Parser { (position, context, input) =>
     input.next match {
       case Right((char, reminder)) => Result.Success(position.next(char), context, reminder, char)
       case Left(error)             => context.error(position, error)

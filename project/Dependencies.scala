@@ -20,9 +20,9 @@ object Dependencies {
   val Example: Seq[ModuleID] = TestDependencies
 
   private object V {
-    val scalatest      = "3.2.3"
-    val scalacheck     = "1.15.2"
-    val scalacheckPlus = "3.2.4.0-M1"
+    val scalatest      = "3.2.12"
+    val scalacheck     = "1.16.0"
+    val scalacheckPlus = "3.2.11.0"
   }
 
   private object D {

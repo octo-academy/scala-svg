@@ -1,5 +1,5 @@
 ThisBuild / version      := "0.1"
-ThisBuild / scalaVersion := "3.0.0-M3"
+ThisBuild / scalaVersion := "3.1.3"
 
 ThisBuild / scalacOptions := Seq(
   "-encoding",

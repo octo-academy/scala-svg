@@ -1,4 +1,4 @@
-package typeclass.behavior
+package scalasvg.lang.typeclass.behavior
 
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
@@ -11,7 +11,7 @@ import scalasvg.lang.typeclass.{FlatMap, Equal}
 trait FlatMapBehavior[F[_]] {
   self: AnyWordSpec with Matchers with Checkers =>
   
-  def flatMap[A, B, C](using Arbitrary[F[A]], Arbitrary[A => F[B]], Arbitrary[B => F[C]], Equal[F[C]], FlatMap[F]) = {
+  def flatMap[A, B, C](using Arbitrary[F[A]], Arbitrary[A => F[B]], Arbitrary[B => F[C]], Equal[F[C]], FlatMap[F]): Unit = {
     val flatMapLaws = FlatMapLaws[F]
     
     "follow all FlatMap laws," which afterWord("include") {

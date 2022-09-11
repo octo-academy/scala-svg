@@ -1,50 +1,52 @@
 package scalasvg.parser.internal
 
-import scalasvg.lang.typeclass.{ Applicative, Choice, Monad, Monoid, Semigroup }
-import scalasvg.parser.internal.Parser
+import scalasvg.lang.typeclass.{ Choice, Monad, Monoid }
+import scalasvg.parser.internal.cursor.{ Cursor, ICursor }
+import scalasvg.parser.internal.input.{ IInput, Input }
+import scalasvg.parser.internal.position.{ Absolute, Detailed }
 
+import java.util.Objects
 import scala.annotation.targetName
 
-final case class Parser[O](val run: Parser.Run[O]) {
+final case class Parser[O](run: ICursor => Either[Failed, Result[O]]) {
 
-  def parse(stream: BufferedStream): Either[String, O] =
-    run(Position(0, 0, 0), new Context(), stream) match {
-      case Result.Failure(position, error)     =>
-        val line   = position.row + 1
-        val column = position.column + 1
-        Left(s"""Error "${error}" at line ${line} column ${column}""")
-      case Result.Success(_, _, input, output) =>
-        if input.isEmpty then Right(output) else Left(s"""Unconsumed input: "${input.rest}"""")
+  def run(input: String): Either[Failed, Result[O]] = run(Cursor(Input(input), Absolute(0)))
+
+  def parse(input: String): Either[Failed, O] = parse(Cursor(Input(input), Absolute(0)))
+
+  def parse(cursor: ICursor): Either[Failed, O] =
+    run(cursor) match {
+      case Right(Result(output, reminder)) =>
+        if reminder.isEmpty then Right(output) else Left(Failed.UnconsumedInput(reminder))
+      case Left(error)                     => Left(error)
     }
 
 }
 
 object Parser {
-  type Run[O] = (Position, Context, BufferedStream) => Result[O]
+  private val _empty: Parser[Nothing] = Parser[Nothing](cursor => Left(Failed.UnconsumedInput(cursor)))
 
   given ParserMonad: Monad[Parser] with {
 
-    def pure[O](a: O): Parser[O] =
-      Parser { (position, context, input) =>
-        Result.Success(position, context, input, a)
-      }
+    def pure[A](a: A): Parser[A] = Parser(input => Right(Result(a, input)))
 
-    extension [O, R](parser: Parser[O]) {
+    extension [A, AR](parser: Parser[A]) {
 
-      def flatMap(f: O => Parser[R]): Parser[R] =
-        Parser { (position, context, input) =>
-          parser.run(position, context, input) match {
-            case x: Result.Success[O] => f(x.output).run(x.position, x.context, x.input)
-            case x: Result.Failure[O] => Result.Failure(x.position, x.error)
+      def flatMap(f: A => Parser[AR]): Parser[AR] =
+        Parser(input =>
+          parser.run(input) match {
+            case Right(Result(output, reminder)) => f(output).run(reminder)
+            case Left(error)                     => Left(error)
           }
-        }
+        )
 
     }
 
   }
 
   given ParserMonoid[A]: Monoid[Parser[A]] with {
-    def empty: Parser[A] = Parser((position, context, input) => context.error(position, "Parser.empty"))
+
+    def empty: Parser[A] = _empty.asInstanceOf
 
     extension (a: Parser[A]) {
       @targetName("combine") def |+|(b: Parser[A]): Parser[A] = a <|> b
@@ -57,12 +59,12 @@ object Parser {
     extension [A, B](a: Parser[A]) {
 
       @targetName("or") def <|>(b: Parser[B]): Parser[A | B] =
-        Parser { (position, context, input) =>
-          a.run(position, context, input) match {
-            case x: Result.Success[A] => x
-            case x: Result.Failure[A] => b.run(position, context, input)
+        Parser(input =>
+          a.run(input) match {
+            case result: Right[Failed, Result[A]] => result
+            case Left(_) => b.run(input)
           }
-        }
+        )
 
     }
 

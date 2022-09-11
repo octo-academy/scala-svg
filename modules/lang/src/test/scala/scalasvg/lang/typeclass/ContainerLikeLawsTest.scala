@@ -1,10 +1,10 @@
-package typeclass
+package scalasvg.lang.typeclass
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.scalacheck.Checkers
-import typeclass.behavior._
-import scalasvg.lang.typeclass._
+import scalasvg.lang.typeclass.*
+import scalasvg.lang.typeclass.behavior.{ApplicativeBehavior, ApplyBehavior, FlatMapBehavior, FunctorBehavior, MonadBehavior, MonoidConteinerLikeBehavior}
 
 class ContainerLikeLawsTest[F[_]]
   extends AnyWordSpec

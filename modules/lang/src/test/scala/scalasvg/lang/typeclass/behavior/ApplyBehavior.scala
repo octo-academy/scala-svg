@@ -1,4 +1,4 @@
-package typeclass.behavior
+package scalasvg.lang.typeclass.behavior
 
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
@@ -11,7 +11,7 @@ import scalasvg.lang.typeclass.{Equal, Apply}
 trait ApplyBehavior[F[_]] {
   self: AnyWordSpec with Matchers with Checkers =>
   
-  def apply[A, B, C](using Arbitrary[F[A]], Arbitrary[F[A => B]], Arbitrary[F[B => C]], Equal[F[C]], Apply[F]) = {
+  def apply[A, B, C](using Arbitrary[F[A]], Arbitrary[F[A => B]], Arbitrary[F[B => C]], Equal[F[C]], Apply[F]): Unit = {
     val applyLaws = ApplyLaws[F]
     
     "follow all Apply laws," which afterWord("include") {

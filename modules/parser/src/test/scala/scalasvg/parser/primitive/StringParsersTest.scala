@@ -11,26 +11,8 @@ import scalasvg.parser.internal.position.Absolute
 
 class StringParsersTest extends AnyWordSpec with Matchers with TableDrivenPropertyChecks {
 
-  "CharParsers".which {
+  "StringParsers".which {
     "string" when {
-
-      val cases = Table(
-        // format: off
-        ("cursor" , "expected"                                                  , "description"           ),
-        ("textile", Right(Result("text", Cursor(Input("textile"), Absolute(4)))), "a text and an appendix"),
-        ("text"   , Right(Result("text", Cursor(Input("text"), Absolute(4))))   , "a full text"           ),
-        ("tex"    , Left(ParseError(Cursor(Input("tex"), Absolute(3))))         , "a text missing a part" )
-        // format: on
-      )
-
-      forEvery(cases) { (cursor, expected, description) =>
-        description in {
-          StringParsers.string("text").run(cursor) must be(expected)
-        }
-      }
-    }
-
-    "symbol" when {
 
       val cases = Table(
         // format: off

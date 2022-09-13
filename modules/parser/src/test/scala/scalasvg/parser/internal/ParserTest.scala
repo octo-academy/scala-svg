@@ -1,8 +1,8 @@
 package scalasvg.parser.internal
 
-import org.scalacheck.{ Arbitrary, Gen }
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.rng.Seed
+import org.scalacheck.{ Arbitrary, Gen }
 import org.scalatest.wordspec.AnyWordSpec
 import scalasvg.lang.typeclass.{ Applicative, ContainerLikeLawsTest, Equal }
 import scalasvg.parser.internal.Parser.given

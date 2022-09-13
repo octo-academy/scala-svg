@@ -1,8 +1,8 @@
 package scalasvg.parser.internal.cursor
 
-import scalasvg.parser.internal.{ Failed, Result }
 import scalasvg.parser.internal.input.IInput
 import scalasvg.parser.internal.position.IPosition
+import scalasvg.parser.internal.{ Failed, Result }
 
 trait ICursor {
   def input:    IInput

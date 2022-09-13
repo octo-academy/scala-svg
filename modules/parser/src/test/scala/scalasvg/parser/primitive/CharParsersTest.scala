@@ -3,6 +3,7 @@ package scalasvg.parser.primitive
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.wordspec.AnyWordSpec
+import scalasvg.parser.internal.Failed.ParseError
 import scalasvg.parser.internal.Result
 import scalasvg.parser.internal.cursor.Cursor
 import scalasvg.parser.internal.input.Input
@@ -14,10 +15,10 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "AnyChar" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"   ),
-        ("a"    , Some(Result('a', Cursor(Input("a"), Absolute(1)))), "a letter"      ),
-        ("7"    , Some(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit number"),
-        ("/"    , Some(Result('/', Cursor(Input("/"), Absolute(1)))), "a symbol"      )
+        ("cursor", "expected"                                         , "description"   ),
+        ("a"     , Right(Result('a', Cursor(Input("a"), Absolute(1)))), "a letter"      ),
+        ("7"     , Right(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit number"),
+        ("/"     , Right(Result('/', Cursor(Input("/"), Absolute(1)))), "a symbol"      )
         // format: on
       )
 
@@ -31,8 +32,8 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Space" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                          , "description"),
-        (" "    , Some(Result(' ', Cursor(Input(" "), Absolute(1))))  , "a spacer"   )
+        ("cursor", "expected"                                         , "description"),
+        (" "     , Right(Result(' ', Cursor(Input(" "), Absolute(1)))), "a spacer"   )
         // format: on
       )
 
@@ -46,8 +47,8 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Tab" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                          , "description" ),
-        ("\t"   , Some(Result('\t', Cursor(Input("\t"), Absolute(1)))), "a tabulation")
+        ("cursor", "expected"                                           , "description" ),
+        ("\t"    , Right(Result('\t', Cursor(Input("\t"), Absolute(1)))), "a tabulation")
         // format: on
       )
 
@@ -61,8 +62,8 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "LF" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                          , "description"),
-        ("\n"   , Some(Result('\n', Cursor(Input("\n"), Absolute(1)))), "a line feed")
+        ("cursor", "expected"                                           , "description"),
+        ("\n"    , Right(Result('\n', Cursor(Input("\n"), Absolute(1)))), "a line feed")
         // format: on
       )
 
@@ -76,8 +77,8 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "CR" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                          , "description"   ),
-        ("\r"   , Some(Result('\r', Cursor(Input("\r"), Absolute(1)))), "a caret return")
+        ("cursor", "expected"                                           , "description"   ),
+        ("\r"    , Right(Result('\r', Cursor(Input("\r"), Absolute(1)))), "a caret return")
         // format: on
       )
 
@@ -91,8 +92,8 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "CRLF" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                              , "description"                           ),
-        ("\r\n"   , Some(Result('\n', Cursor(Input("\r\n"), Absolute(2)))), "a caret return followed by a line feed")
+        ("cursor", "expected"                                             , "description"                           ),
+        ("\r\n"  , Right(Result('\n', Cursor(Input("\r\n"), Absolute(2)))), "a caret return followed by a line feed")
         // format: on
       )
 
@@ -106,10 +107,10 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "NewLine" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                            , "description"                           ),
-        ("\r"   , None                                                  , "a caret return"                        ),
-        ("\n"   , Some(Result('\n', Cursor(Input("\n"), Absolute(1))))  , "a line feed"                           ),
-        ("\r\n" , Some(Result('\n', Cursor(Input("\r\n"), Absolute(2)))), "a caret return followed by a line feed")
+        ("cursor", "expected"                                             , "description"                           ),
+        ("\r"    , Left(ParseError(Cursor(Input("\r"), Absolute(1))))     , "a caret return"                        ),
+        ("\n"    , Right(Result('\n', Cursor(Input("\n"), Absolute(1))))  , "a line feed"                           ),
+        ("\r\n"  , Right(Result('\n', Cursor(Input("\r\n"), Absolute(2)))), "a caret return followed by a line feed")
         // format: on
       )
 
@@ -123,9 +124,9 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Upper" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"         ),
-        ("A"    , Some(Result('A', Cursor(Input("A"), Absolute(1)))), "an upper case letter"),
-        ("a"    , None                                              , "a lower case letter" )
+        ("cursor", "expected"                                         , "description"         ),
+        ("A"     , Right(Result('A', Cursor(Input("A"), Absolute(1)))), "an upper case letter"),
+        ("a"     , Left(ParseError(Cursor(Input("a"), Absolute(0))))  , "a lower case letter" )
         // format: on
       )
 
@@ -139,9 +140,9 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Lower" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"         ),
-        ("a"    , Some(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter" ),
-        ("A"    , None                                              , "an upper case letter")
+        ("cursor", "expected"                                         , "description"         ),
+        ("a"     , Right(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter" ),
+        ("A"     , Left(ParseError(Cursor(Input("A"), Absolute(0))))  , "an upper case letter")
         // format: on
       )
 
@@ -155,10 +156,10 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Letter" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"         ),
-        ("A"    , Some(Result('A', Cursor(Input("A"), Absolute(1)))), "an upper case letter"),
-        ("a"    , Some(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter" ),
-        ("7"    , None                                              , "a digit"             )
+        ("cursor", "expected"                                         , "description"         ),
+        ("A"     , Right(Result('A', Cursor(Input("A"), Absolute(1)))), "an upper case letter"),
+        ("a"     , Right(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter" ),
+        ("7"     , Left(ParseError(Cursor(Input("7"), Absolute(0))))  , "a digit"             )
         // format: on
       )
 
@@ -172,9 +173,9 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "Digit" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"        ),
-        ("a"    , None                                              , "a lower case letter"),
-        ("7"    , Some(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit"            )
+        ("cursor", "expected"                                         , "description"        ),
+        ("a"     , Left(ParseError(Cursor(Input("a"), Absolute(0))))  , "a lower case letter"),
+        ("7"     , Right(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit"            )
         // format: on
       )
 
@@ -188,9 +189,9 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "AlphaNum" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"        ),
-        ("a"    , Some(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter"),
-        ("7"    , Some(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit"            )
+        ("cursor", "expected"                                         , "description"        ),
+        ("a"     , Right(Result('a', Cursor(Input("a"), Absolute(1)))), "a lower case letter"),
+        ("7"     , Right(Result('7', Cursor(Input("7"), Absolute(1)))), "a digit"            )
         // format: on
       )
 
@@ -204,11 +205,11 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "oneOf" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"),
-        ("a"    , Some(Result('a', Cursor(Input("a"), Absolute(1)))), "a letter a" ),
-        ("b"    , Some(Result('b', Cursor(Input("b"), Absolute(1)))), "a letter b" ),
-        ("c"    , Some(Result('c', Cursor(Input("c"), Absolute(1)))), "a letter c" ),
-        ("d"    , None                                              , "a letter d" )
+        ("cursor", "expected"                                         , "description"),
+        ("a"     , Right(Result('a', Cursor(Input("a"), Absolute(1)))), "a letter a" ),
+        ("b"     , Right(Result('b', Cursor(Input("b"), Absolute(1)))), "a letter b" ),
+        ("c"     , Right(Result('c', Cursor(Input("c"), Absolute(1)))), "a letter c" ),
+        ("d"     , Left(ParseError(Cursor(Input("d"), Absolute(0))))  , "a letter d" )
         // format: on
       )
 
@@ -232,11 +233,11 @@ class CharParsersTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "noneOf" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"),
-        ("a"    , None                                              , "a letter a" ),
-        ("b"    , None                                              , "a letter b" ),
-        ("c"    , None                                              , "a letter c" ),
-        ("d"    , Some(Result('d', Cursor(Input("d"), Absolute(1)))), "a letter d" )
+        ("cursor", "expected"                                         , "description"),
+        ("a"     , Left(ParseError(Cursor(Input("a"), Absolute(0))))  , "a letter a" ),
+        ("b"     , Left(ParseError(Cursor(Input("b"), Absolute(0))))  , "a letter b" ),
+        ("c"     , Left(ParseError(Cursor(Input("c"), Absolute(0))))  , "a letter c" ),
+        ("d"     , Right(Result('d', Cursor(Input("d"), Absolute(1)))), "a letter d" )
         // format: on
       )
 

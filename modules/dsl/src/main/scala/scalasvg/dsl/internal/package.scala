@@ -1,7 +1,8 @@
 package scalasvg.dsl
 
-import scala.collection.mutable.ListBuffer
 import scalasvg.element.Element
+
+import scala.collection.mutable.ListBuffer
 
 package object internal {
   type Initializer[T] = ListBuffer[T] ?=> Unit

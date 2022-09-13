@@ -1,12 +1,12 @@
 package scalasvg.lang.typeclass.behavior
 
-import scalasvg.lang.laws.{ FunctorLaws, IsEqual }
-import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.scalacheck.Checkers
-import org.scalatest.matchers.must.Matchers
-import scalasvg.lang.typeclass.{ Equal, Functor }
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatestplus.scalacheck.Checkers
+import scalasvg.lang.laws.{ FunctorLaws, IsEqual }
+import scalasvg.lang.typeclass.{ Equal, Functor }
 
 trait FunctorBehavior[F[_]] {
   self: AnyWordSpec with Matchers with Checkers =>

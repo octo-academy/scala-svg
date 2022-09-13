@@ -3,6 +3,7 @@ package scalasvg.parser.primitive
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.wordspec.AnyWordSpec
+import scalasvg.parser.internal.Failed.ParseError
 import scalasvg.parser.internal.Result
 import scalasvg.parser.internal.cursor.Cursor
 import scalasvg.parser.internal.input.Input
@@ -14,10 +15,10 @@ class NumberParsersTest extends AnyWordSpec with Matchers with TableDrivenProper
     "nat" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                        , "description"                 ),
-        ( "7"   , Some(Result(7 , Cursor(Input("7"), Absolute(1)))) , "a one digit number"          ),
-        ("42"   , Some(Result(42, Cursor(Input("42"), Absolute(2)))), "multiple digit number"       ),
-        ("a7"   , None                                              , "a letter followed by a digit")
+        ("cursor", "expected"                                         , "description"                 ),
+        ( "7"    , Right(Result(7 , Cursor(Input("7"), Absolute(1)))) , "a one digit number"          ),
+        ("42"    , Right(Result(42, Cursor(Input("42"), Absolute(2)))), "multiple digit number"       ),
+        ("a7"    , Left(ParseError(Cursor(Input("a7"), Absolute(0)))) , "a letter followed by a digit")
         // format: on
       )
 
@@ -31,12 +32,12 @@ class NumberParsersTest extends AnyWordSpec with Matchers with TableDrivenProper
     "int" when {
       val cases = Table(
         // format: off
-        ("cursor", "expected"                                          , "description"                 ),
-        (  "7"  , Some(Result(7  , Cursor(Input("7"), Absolute(1))))  , "a one digit number"          ),
-        ( "42"  , Some(Result(42 , Cursor(Input("42"), Absolute(2)))) , "multiple digit number"       ),
-        ("+42"  , Some(Result(42 , Cursor(Input("+42"), Absolute(3)))), "a plus sign prefixed number" ),
-        ("-42"  , Some(Result(-42, Cursor(Input("-42"), Absolute(3)))), "a minus sign prefixed number"),
-        ( "a7"  , None                                                , "a letter followed by a digit")
+        ("cursor", "expected"                                           , "description"                 ),
+        (  "7"   , Right(Result(7  , Cursor(Input("7"), Absolute(1))))  , "a one digit number"          ),
+        ( "42"   , Right(Result(42 , Cursor(Input("42"), Absolute(2)))) , "multiple digit number"       ),
+        ("+42"   , Right(Result(42 , Cursor(Input("+42"), Absolute(3)))), "a plus sign prefixed number" ),
+        ("-42"   , Right(Result(-42, Cursor(Input("-42"), Absolute(3)))), "a minus sign prefixed number"),
+        ( "a7"   , Left(ParseError(Cursor(Input("a7"), Absolute(0))))   , "a letter followed by a digit")
         // format: on
       )
 

@@ -3,11 +3,11 @@ package scalasvg.parser
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.wordspec.AnyWordSpec
-import scalasvg.parser.internal.Failed.UnconsumedInput
+import scalasvg.parser.internal.Failed.{ ParseError, UnconsumedInput }
 import scalasvg.parser.internal.cursor.Cursor
-import scalasvg.parser.internal.{ Parser, Result }
 import scalasvg.parser.internal.input.Input
 import scalasvg.parser.internal.position.Absolute
+import scalasvg.parser.internal.{ Parser, Result }
 import scalasvg.parser.primitive.CharParsers
 
 class CombinatorsTest extends AnyWordSpec with Matchers with TableDrivenPropertyChecks {
@@ -18,10 +18,10 @@ class CombinatorsTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "optional" when {
       val cases = Table(
         // format: off
-        ("text", "expected"                                              , "description"     ),
-        ("x"   , Some(Result(Some('x'), Cursor(Input("x"), Absolute(1)))), "has desired item"),
-        ("a"   , Some(Result(None     , Cursor(Input("a"), Absolute(0)))), "has wrong item"  ),
-        (""    , Some(Result(None     , Cursor(Input("" ), Absolute(0)))), "an empty input"  )
+        ("text", "expected"                                               , "description"     ),
+        ("x"   , Right(Result(Some('x'), Cursor(Input("x"), Absolute(1)))), "has desired item"),
+        ("a"   , Right(Result(None     , Cursor(Input("a"), Absolute(0)))), "has wrong item"  ),
+        (""    , Right(Result(None     , Cursor(Input("" ), Absolute(0)))), "an empty input"  )
         // format: on
       )
 
@@ -35,11 +35,11 @@ class CombinatorsTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "some" when {
       val cases = Table(
         // format: off
-        ("input", "expected"                                                    , "description"                                                    ),
-        ("xx-"  , Some(Result(Seq('x', 'x'), Cursor(Input("xx-"), Absolute(2)))), "has multiple sequential desired items followed by undesired one"),
-        ("xx"   , Some(Result(Seq('x', 'x'), Cursor(Input("xx" ), Absolute(2)))), "has multiple sequential desired items"                          ),
-        ("x"    , Some(Result(Seq('x')     , Cursor(Input("x"  ), Absolute(1)))), "has a single desired item"                                      ),
-        (""     , None                                                          , "an empty input"                                                 )
+        ("input", "expected"                                                     , "description"                                                    ),
+        ("xx-"  , Right(Result(Seq('x', 'x'), Cursor(Input("xx-"), Absolute(2)))), "has multiple sequential desired items followed by undesired one"),
+        ("xx"   , Right(Result(Seq('x', 'x'), Cursor(Input("xx" ), Absolute(2)))), "has multiple sequential desired items"                          ),
+        ("x"    , Right(Result(Seq('x')     , Cursor(Input("x"  ), Absolute(1)))), "has a single desired item"                                      ),
+        (""     , Left(ParseError(Cursor(Input(""),Absolute(0))))                , "an empty input"                                                 )
         // format: on
       )
 
@@ -53,11 +53,11 @@ class CombinatorsTest extends AnyWordSpec with Matchers with TableDrivenProperty
     "many" when {
       val cases = Table(
         // format: off
-        ("input", "expected"                                                    , "description"                                                    ),
-        ("xx-"  , Some(Result(Seq('x', 'x'), Cursor(Input("xx-"), Absolute(2)))), "has multiple sequential desired items followed by undesired one"),
-        ("xx"   , Some(Result(Seq('x', 'x'), Cursor(Input("xx" ), Absolute(2)))), "has multiple sequential desired items"                          ),
-        ("x"    , Some(Result(Seq('x')     , Cursor(Input("x"  ), Absolute(1)))), "has a single desired item"                                      ),
-        (""     , Some(Result(Seq()        , Cursor(Input(""   ), Absolute(0)))), "an empty input"                                                 )
+        ("input", "expected"                                                     , "description"                                                    ),
+        ("xx-"  , Right(Result(Seq('x', 'x'), Cursor(Input("xx-"), Absolute(2)))), "has multiple sequential desired items followed by undesired one"),
+        ("xx"   , Right(Result(Seq('x', 'x'), Cursor(Input("xx" ), Absolute(2)))), "has multiple sequential desired items"                          ),
+        ("x"    , Right(Result(Seq('x')     , Cursor(Input("x"  ), Absolute(1)))), "has a single desired item"                                      ),
+        (""     , Right(Result(Seq()        , Cursor(Input(""   ), Absolute(0)))), "an empty input"                                                 )
         // format: on
       )
 
@@ -87,12 +87,12 @@ class CombinatorsTest extends AnyWordSpec with Matchers with TableDrivenProperty
     val (o, i, c) = (open, item, close)
     val cases     = Table(
       // format: off
-      ("input"  , "expected"                                               , "description"                                  ),
-      (s"$o$i$c", Some(Result(item, Cursor(Input(s"$o$i$c"), Absolute(3)))), "has a desired item enclosed in open and close"),
-      (s"$o$c"  , None                                                     , "has an open and close but no item"            ),
-      (s"$o$i"  , None                                                     , "has an open and desired item but no close"    ),
-      (s"$i$c"  , None                                                     , "has a desired item and close but no open"     ),
-      (s"$i"    , None                                                     , "has a desired item alone no open nor close"   )
+      ("input"  , "expected"                                                , "description"                                  ),
+      (s"$o$i$c", Right(Result(item, Cursor(Input(s"$o$i$c"), Absolute(3)))), "has a desired item enclosed in open and close"),
+      (s"$o$c"  , Left(ParseError(Cursor(Input(s"$o$c"),Absolute(1))))      , "has an open and close but no item"            ),
+      (s"$o$i"  , Left(ParseError(Cursor(Input(s"$o$i"),Absolute(2))))      , "has an open and desired item but no close"    ),
+      (s"$i$c"  , Left(ParseError(Cursor(Input(s"$i$c"),Absolute(0))))      , "has a desired item and close but no open"     ),
+      (s"$i"    , Left(ParseError(Cursor(Input(s"$i"),Absolute(0))))        , "has a desired item alone no open nor close"   )
       // format: on
     )
 

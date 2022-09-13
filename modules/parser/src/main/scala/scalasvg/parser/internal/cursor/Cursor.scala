@@ -1,8 +1,8 @@
 package scalasvg.parser.internal.cursor
 
-import scalasvg.parser.internal.{ Failed, Result }
 import scalasvg.parser.internal.input.IInput
 import scalasvg.parser.internal.position.IPosition
+import scalasvg.parser.internal.{ Failed, Result }
 
 final case class Cursor(
   override val input:    IInput,
@@ -15,7 +15,7 @@ final case class Cursor(
       case None       => Left(Failed.ParseError(this))
     }
 
-  override def reminder: String = input.reminder(position)
-
   override def isEmpty: Boolean = reminder.isEmpty
+
+  override def reminder: String = input.reminder(position)
 }

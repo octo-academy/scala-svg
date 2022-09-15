@@ -7,7 +7,8 @@ ThisBuild / scalacOptions := Seq(
   "-deprecation",
   "-unchecked",
   "-feature",
-  "-Xfatal-warnings"
+  "-Xfatal-warnings",
+  "-explain"
 )
 
 lazy val lang = project
@@ -26,8 +27,8 @@ lazy val dsl = project
 
 lazy val parser = project
   .in(file("modules/parser"))
-  .aggregate(model)
-  .dependsOn(model)
+  .aggregate(lang, model)
+  .dependsOn(lang % "compile->compile;test->test", model)
   .settings(Settings.Parser)
 
 lazy val example = project

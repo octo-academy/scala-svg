@@ -1,17 +1,17 @@
-package typeclass.behavior
+package scalasvg.lang.typeclass.behavior
 
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.Checkers
-import scalasvg.lang.laws.{ApplicativeLaws, IsEqual}
-import scalasvg.lang.typeclass.{Applicative, Equal}
+import scalasvg.lang.laws.{ ApplicativeLaws, IsEqual }
+import scalasvg.lang.typeclass.{ Applicative, Equal }
 
 trait ApplicativeBehavior[F[_]] {
   self: AnyWordSpec with Matchers with Checkers =>
-  
-  def applicative[A, B, C](using 
+
+  def applicative[A, B, C](using
     Arbitrary[A],
     Arbitrary[A => B],
     Arbitrary[F[A]],
@@ -20,10 +20,11 @@ trait ApplicativeBehavior[F[_]] {
     Equal[F[A]],
     Equal[F[B]],
     Equal[F[C]],
-    Applicative[F]) = {
+    Applicative[F]
+  ): Unit = {
     val applicativeLaws = ApplicativeLaws[F]
-    
-    "follow all Applicative laws," which afterWord("include") {
+
+    "follow all Applicative laws,".which(afterWord("include") {
       "identity" in {
         check {
           forAll { (fa: F[A]) =>
@@ -59,6 +60,7 @@ trait ApplicativeBehavior[F[_]] {
           }
         }
       }
-    }
+    })
   }
+
 }

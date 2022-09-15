@@ -1,20 +1,27 @@
-package typeclass.behavior
+package scalasvg.lang.typeclass.behavior
 
-import scalasvg.lang.laws.{FunctorLaws, IsEqual}
-import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.scalacheck.Checkers
-import org.scalatest.matchers.must.Matchers
-import scalasvg.lang.typeclass.{Equal, Functor}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Prop.forAll
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatestplus.scalacheck.Checkers
+import scalasvg.lang.laws.{ FunctorLaws, IsEqual }
+import scalasvg.lang.typeclass.{ Equal, Functor }
 
 trait FunctorBehavior[F[_]] {
   self: AnyWordSpec with Matchers with Checkers =>
-  
-  def functor[A, B, C](using Arbitrary[F[A]], Arbitrary[A => B], Arbitrary[B => C], Equal[F[A]], Equal[F[C]], Functor[F]) = {
+
+  def functor[A, B, C](using
+    Arbitrary[F[A]],
+    Arbitrary[A => B],
+    Arbitrary[B => C],
+    Equal[F[A]],
+    Equal[F[C]],
+    Functor[F]
+  ): Unit = {
     val functorLaws = FunctorLaws[F]
-    
-    "follow all Functor laws," which afterWord("include") {
+
+    "follow all Functor laws,".which(afterWord("include") {
       "identity" in {
         check {
           forAll { (fa: F[A]) =>
@@ -29,6 +36,7 @@ trait FunctorBehavior[F[_]] {
           }
         }
       }
-    }
+    })
   }
+
 }

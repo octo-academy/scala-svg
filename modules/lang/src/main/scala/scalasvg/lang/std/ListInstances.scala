@@ -1,6 +1,6 @@
 package scalasvg.lang.std
 
-import scalasvg.lang.typeclass._
+import scalasvg.lang.typeclass.{ Applicative, Apply, Equal, Monad, Monoid, Traverse }
 
 import scala.annotation.targetName
 
@@ -42,7 +42,7 @@ trait ListInstances {
 
   given ListEqual[A](using A: Equal[A]): Equal[List[A]] with {
 
-    def equal(x: List[A], y: List[A]) =
+    def equal(x: List[A], y: List[A]): Boolean =
       x.size == y.size && {
         x.zip(y).forall { case (xx, yy) => A.equal(xx, yy) }
       }

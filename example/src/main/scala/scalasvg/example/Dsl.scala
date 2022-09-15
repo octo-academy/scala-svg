@@ -3,7 +3,7 @@ package scalasvg.example
 import scalasvg.dsl.{ circle, desc, plain, svg }
 import scalasvg.element.SVG
 
-object Main {
+object Dsl {
 
   def main(args: Array[String]): Unit = {
     val document: SVG =

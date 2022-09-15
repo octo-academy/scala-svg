@@ -6,6 +6,22 @@ object Category {
 
   sealed trait Generic
 
+  sealed trait Filters extends Category
+
+  sealed trait Animation extends Category
+
+  sealed trait Event extends Category
+
+  trait XLink extends Category
+
+  /**
+   * SVG presentation attributes are CSS properties that can be used as
+   * attributes on SVG elements.
+   *
+   * Note: All SVG presentation attributes can be used as CSS properties
+   */
+  trait Presentation extends Category
+
   object Generic {
 
     /**
@@ -28,25 +44,11 @@ object Category {
     trait ConditionalProcessing extends Generic
   }
 
-  trait XLink extends Category
-
-  /**
-   * SVG presentation attributes are CSS properties that can be used as
-   * attributes on SVG elements.
-   *
-   * Note: All SVG presentation attributes can be used as CSS properties
-   */
-  trait Presentation extends Category
-
-  sealed trait Filters extends Category
-
   object Filter {
     trait Primitive extends Filters
 
     trait TransferFunction extends Filters
   }
-
-  sealed trait Animation extends Category
 
   object Animation {
     trait AttributeTarget extends Animation
@@ -57,8 +59,6 @@ object Category {
 
     trait Addition extends Animation
   }
-
-  sealed trait Event extends Category
 
   object Event {
     trait Animation extends Event
